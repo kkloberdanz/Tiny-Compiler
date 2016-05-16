@@ -51,10 +51,10 @@ static int  bufsize = 0;      /* current size of buffer string */
 
 static char get_next_char(void) {
     /*
-    if ( !(linepos < bufsize) ) {
+    if ( !(linepos < bufsize) ) { // then read next line
         LINENO++;
         if (fgets(line_buf, BUFLEN-1, SOURCE)) {
-            if (ECHO_SOURCE) {
+            if (ECHO_SOURCE) { // if reading from source file
                 fprintf(LISTING, "%4d: %s", LINENO, line_buf);
                 bufsize = strlen(line_buf);
                 linepos = 0;
