@@ -36,11 +36,11 @@ typedef enum {
     ERROR
 } token_type;
 
-extern FILE *SOURCE;  /* source inpug file */
-extern FILE *LISTING; /* listing output file */
-extern FILE *CODE;    /* object code ouput */
+FILE *SOURCE;  /* source inpug file */
+FILE *LISTING; /* listing output file */
+FILE *CODE;    /* object code ouput */
 
-extern int  LINENO;      /* current line number */
-extern int  ECHO_SOURCE; /* TRUE if reading from source */ 
+int  LINENO;      /* current line number */
+int  ECHO_SOURCE; /* TRUE if reading from source */ 
 
 #endif

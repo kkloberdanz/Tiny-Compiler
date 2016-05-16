@@ -50,7 +50,6 @@ static int  linepos = 0;      /* current position of linebuf */
 static int  bufsize = 0;      /* current size of buffer string */
 
 static char get_next_char(void) {
-    /*
     if ( !(linepos < bufsize) ) { // then read next line
         LINENO++;
         if (fgets(line_buf, BUFLEN-1, SOURCE)) {
@@ -66,7 +65,6 @@ static char get_next_char(void) {
     } else {
         return line_buf[linepos++];
     }
-    */
 }
 
 token_type get_token(void) {
