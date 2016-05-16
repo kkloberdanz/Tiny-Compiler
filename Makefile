@@ -1,6 +1,6 @@
 CC = gcc
 
-CFLAGS = -O2
+CFLAGS = -Og
 
 OBJS = main.o scan.o
 
