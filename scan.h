@@ -11,12 +11,12 @@ typedef struct {
     int        num_val;
 } token_record_t;
 
-token_type get_token(void);
-
-static char get_next_char(void);
-
-static token_type reserved_lookup(char* s);
-
+token_type get_token(void); 
+static char get_next_char(void); 
+static token_type reserved_lookup(char*); 
 static void unget_next_char(void); 
+
+/* TEST */
+int inc_global(void);
 
 #endif

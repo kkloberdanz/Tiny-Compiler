@@ -5,16 +5,35 @@
 #include "globals.h"
 #include "scan.h"
 
+FILE* LISTING;
+FILE* CODE;
+FILE* SOURCE;
+
 int main(int argc, char* argv[]) { 
 
+    /* TEST */
+    /*
+    char user_input = 'a';
+    while (user_input != 'q') {
+        inc_global();
+        printf("%d\n", global_var); 
+        user_input = getchar();
+    }
+    */
+
     if (argv[1]) {
-        FILE* SOURCE = fopen(argv[1], "r");
-        printf("Reading from file: '%s'\n", argv[1]);
+        SOURCE = fopen(argv[1], "r");
+        LISTING = fopen("listing", "w");
+        if (SOURCE) {
+            printf("Reading from file: '%s'\n", argv[1]); 
+            get_token();
+        } else {
+            printf("Could not open file: '%s', exiting\n", argv[1]);
+            exit(EXIT_FAILURE);
+        }
     } else {
         puts("tiny: No input file specified");
         exit(EXIT_FAILURE);
     }
-    FILE* LISTING;
-    FILE* CODE;
     return 0;
 }

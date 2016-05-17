@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 #include "scan.h"
 #include "globals.h"
@@ -10,7 +11,7 @@
 
 int LINENO = 0;
 /*int ECHO_SOURCE;*/
-FILE *SOURCE, *LISTING, *CODE;
+/*FILE *SOURCE, *LISTING, *CODE; */
 
 char token_string[MAXTOKENLEN + 1];
 
@@ -22,6 +23,12 @@ typedef enum {
     INID,
     DONE
 } state_type;
+
+/* TEST */
+int global_var = 0;
+int inc_global() {
+    return global_var++;
+}
 
 /* reserved words lookup table */
 static struct {
@@ -55,8 +62,22 @@ static int  linepos = 0;      /* current position of linebuf */
 static int  bufsize = 0;      /* current size of buffer string */
 
 static char get_next_char(void) {
+    /* DEBUGGING */
+    /*
+    printf("SOURCE:  %9d\n", SOURCE);
+    printf("LISTING: %9d\n", LISTING);
+    if (SOURCE) {
+        puts("SOURCE");
+    } else {
+        puts("Source file did not open correctly");
+        exit(EXIT_FAILURE);
+    }
+    */
+    /* DEBUGGING */
+
     if ( !(linepos < bufsize) ) { // then read next line
         LINENO++;
+        /*printf("%s, %d\n", line_buf, BUFLEN-1);*/
         if (fgets(line_buf, BUFLEN-1, SOURCE)) {
             if (ECHO_SOURCE) { // if reading from source file
                 fprintf(LISTING, "%4d: %s", LINENO, line_buf);
@@ -73,11 +94,10 @@ static char get_next_char(void) {
 }
 
 token_type get_token(void) {
-    /* TODO: pg 513, line 674 */
     int token_string_index = 0; /* index for storing token */
     token_type current_token;   /* Holds token that will be returned */
     state_type state = START;   /* current state begins at START */
-    int save;                   /* flag to indicate save to token_string */
+    int save;                   /* flag to indicate save to token_string*/
 
     while (state != DONE) {
         char c = get_next_char();
@@ -85,16 +105,18 @@ token_type get_token(void) {
 
         switch (state) {
             case START:
+                if (DEBUG_MODE)
+                puts("START");
                 if (isdigit(c)) {
-                    state = INNUM;          /* in number */
+                    state = INNUM;       /* in number */
                 } else if (isalpha(c)) {
-                    state = INID;           /* in identifier */
+                    state = INID;        /* in identifier */
                 } else if (c == ':') {
-                    state = INASSIGN;       /* in assignment */
+                    state = INASSIGN;    /* in assignment */
                 } else if ((c == ' ') || (c == '\t') || (c == '\n')) {
-                    save = FALSE;           /* ignore whitespace/newlines */
+                    save = FALSE;        /* ignore whitespace/newlines */
                 } else if (c == '{') {
-                    save = FALSE;           /* { and } denote comments */
+                    save = FALSE;        /* { and } denote comments */
                     state = INCOMMENT;
                 } else {
                     state = DONE;
@@ -145,6 +167,8 @@ token_type get_token(void) {
                 break; /* outer switch */
 
             case INCOMMENT:
+                if (DEBUG_MODE)
+                puts("INCOMMENT");
                 save = FALSE;
                 if (c == '}') {
                     state = START;
@@ -152,6 +176,8 @@ token_type get_token(void) {
                 break;
 
             case INASSIGN:
+                if (DEBUG_MODE)
+                puts("INASSIGN");
                 state = DONE;
                 if (c == '=') {
                     current_token = ASSIGN;
@@ -163,6 +189,8 @@ token_type get_token(void) {
                 break;
 
             case INNUM:
+                if (DEBUG_MODE)
+                puts("INNUM");
                 if (!isdigit(c)) {
                     unget_next_char();
                     save = FALSE;
@@ -172,6 +200,8 @@ token_type get_token(void) {
                 break; 
 
             case INID:
+                if (DEBUG_MODE)
+                puts("INID");
                 if (!isalpha(c)) {
                     unget_next_char();
                     save = FALSE;
@@ -181,6 +211,8 @@ token_type get_token(void) {
                 break;
                 
             case DONE:
+                if (DEBUG_MODE);
+                puts("DONE");
             default: /* should never happen */
                 fprintf(LISTING, "Scanner Bug: state = %d\n", state);
                 state = DONE;
