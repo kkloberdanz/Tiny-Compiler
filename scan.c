@@ -5,6 +5,7 @@
 
 #include "scan.h"
 #include "globals.h"
+#include "util.h"
 
 #define MAXRESERVED 8
 #define BUFLEN      256
@@ -106,7 +107,7 @@ token_type get_token(void) {
         switch (state) {
             case START:
                 if (DEBUG_MODE)
-                puts("START");
+                    puts("START");
                 if (isdigit(c)) {
                     state = INNUM;       /* in number */
                 } else if (isalpha(c)) {
@@ -168,7 +169,7 @@ token_type get_token(void) {
 
             case INCOMMENT:
                 if (DEBUG_MODE)
-                puts("INCOMMENT");
+                    puts("INCOMMENT");
                 save = FALSE;
                 if (c == '}') {
                     state = START;
@@ -177,7 +178,7 @@ token_type get_token(void) {
 
             case INASSIGN:
                 if (DEBUG_MODE)
-                puts("INASSIGN");
+                    puts("INASSIGN");
                 state = DONE;
                 if (c == '=') {
                     current_token = ASSIGN;
@@ -190,7 +191,7 @@ token_type get_token(void) {
 
             case INNUM:
                 if (DEBUG_MODE)
-                puts("INNUM");
+                    puts("INNUM");
                 if (!isdigit(c)) {
                     unget_next_char();
                     save = FALSE;
@@ -201,7 +202,7 @@ token_type get_token(void) {
 
             case INID:
                 if (DEBUG_MODE)
-                puts("INID");
+                    puts("INID");
                 if (!isalpha(c)) {
                     unget_next_char();
                     save = FALSE;
@@ -211,8 +212,8 @@ token_type get_token(void) {
                 break;
                 
             case DONE:
-                if (DEBUG_MODE);
-                puts("DONE");
+                if (DEBUG_MODE)
+                    puts("DONE");
             default: /* should never happen */
                 fprintf(LISTING, "Scanner Bug: state = %d\n", state);
                 state = DONE;
@@ -230,12 +231,10 @@ token_type get_token(void) {
             }
         } 
     } /* end while */
-    /*
     if (TRACE_SCAN) {
         fprintf(LISTING, "\t%d: ", LINENO);
         print_token(current_token, token_string);
     }
-    */
     return current_token;
 } /* end get_token */
 

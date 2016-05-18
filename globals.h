@@ -53,6 +53,26 @@ typedef enum {
     ERROR
 } token_type;
 
+typedef enum {
+    PLUS_K,
+    MINUS_K,
+    TIMES_K 
+} op_kind;
+
+typedef enum {
+    OP_K,
+    CONST_K
+} exp_kind;
+
+typedef struct s_tree_node {
+    exp_kind kind;
+    op_kind  pl;
+    struct s_tree_node *lchild, *rchild;
+    int val;
+} STreeNode;
+
+typedef STreeNode *Syntax_Tree;
+
 extern FILE *SOURCE;  /* source inpug file */
 extern FILE *LISTING; /* listing output file */
 extern FILE *CODE;    /* object code ouput */

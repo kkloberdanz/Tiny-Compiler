@@ -6,3 +6,44 @@
    6: 
    7: 
    8: read x; {input an integer}
+	8: reserved word: read
+	8: ID, name= x
+	8: ;
+   9: if 0 < x then
+	9: reserved word: if
+	9: NUM, val= 0
+	9: <
+	9: ID, name= x
+	9: reserved word: then
+  10:     fact := 1;
+	10: ID, name= fact
+	10: :=
+	10: NUM, val= 1
+	10: ;
+  11:     repeat
+	11: reserved word: repeat
+  12:         fact := fact * x;
+	12: ID, name= fact
+	12: :=
+	12: ID, name= fact
+	12: *
+	12: ID, name= x
+	12: ;
+  13:         x := x - 1
+	13: ID, name= x
+	13: :=
+	13: ID, name= x
+	13: -
+	13: NUM, val= 1
+  14:     until x = 0;
+	14: reserved word: until
+	14: ID, name= x
+	14: ERROR: =
+	14: NUM, val= 0
+	14: ;
+  15:     write fact
+	15: reserved word: write
+	15: ID, name= fact
+  16: end
+	16: reserved word: end
+	17: EOF

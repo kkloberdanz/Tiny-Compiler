@@ -4,6 +4,7 @@
 
 #include "globals.h"
 #include "scan.h"
+#include "util.h"
 
 FILE* LISTING;
 FILE* CODE;
@@ -24,9 +25,10 @@ int main(int argc, char* argv[]) {
     if (argv[1]) {
         SOURCE = fopen(argv[1], "r");
         LISTING = fopen("listing", "w");
+        /*LISTING = stdout;*/
         if (SOURCE) {
             printf("Reading from file: '%s'\n", argv[1]); 
-            get_token();
+            while(get_token() != ENDFILE);
         } else {
             printf("Could not open file: '%s', exiting\n", argv[1]);
             exit(EXIT_FAILURE);
